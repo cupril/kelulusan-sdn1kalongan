@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pengumuman Kelulusan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    .hasil {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pengumuman Kelulusan</h1>
+  <p>Masukkan NISN Anda:</p>
+  <input type="text" id="nisnInput" placeholder="Masukkan NISN">
+  <button onclick="cekKelulusan()">Cek</button>
+  <div class="hasil" id="hasilKelulusan"></div>
+
+  <script>
+    let dataKelulusan = [];
+
+    // Ambil data kelulusan dari file JSON
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        dataKelulusan = data;
+      });
+
+    function cekKelulusan() {
+      const nisn = document.getElementById('nisnInput').value.trim();
+      const hasilDiv = document.getElementById('hasilKelulusan');
+      const siswa = dataKelulusan.find(s => s.nisn === nisn);
+
+      if (siswa) {
+        hasilDiv.innerHTML = `Nama: ${siswa.nama}<br>Status: <span style="color: green">${siswa.status}</span>`;
+      } else {
+        hasilDiv.innerHTML = `<span style="color: red">NISN tidak ditemukan.</span>`;
+      }
+    }
+  </script>
+</body>
+</html>
